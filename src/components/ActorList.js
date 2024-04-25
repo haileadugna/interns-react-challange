@@ -8,11 +8,22 @@ function ActorList() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const url = 'https://cors-anywhere.herokuapp.com/https://swapi.dev/api/people/';
-        fetch(url)
-            .then(response => response.json())
-            .then(data => setActors(data.results))
-            .catch(error => console.error('Error:', error));
+        fetch('https://swapi.dev/api/people/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setActors(data.results);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+                setError(error.message);
+                setLoading(false);
+            });
     }, []);
 
     console.log(actors)
