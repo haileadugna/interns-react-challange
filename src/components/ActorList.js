@@ -1,13 +1,15 @@
 import React, { useState} from 'react';
 import ActorDetail from './ActorDetail';
 import useActors from '../hooks/useActors';
+import './ActorList.css';
+import Loading from './LoadingIcon';
 
 function ActorList() {
     const { actors, error, loading } = useActors();
     const [selectedActor, setSelectedActor] = useState(null);
 
-    console.log(actors, error)
-    if (loading) return <div>Loading...</div>;
+    // console.log(actors.result, error)
+    if (loading) return <Loading />;
     if (error) return <div>Error: {error}</div>;
 
     return (
