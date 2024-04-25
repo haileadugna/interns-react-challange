@@ -1,32 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import ActorDetail from './ActorDetail';
+import useActors from '../hooks/useActors';
 
 function ActorList() {
-    const [actors, setActors] = useState([]);
+    const { actors, error, loading } = useActors();
     const [selectedActor, setSelectedActor] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
-    useEffect(() => {
-        fetch('https://swapi.dev/api/people/')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setActors(data.results);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching data: ', error);
-                setError(error.message);
-                setLoading(false);
-            });
-    }, []);
-
-    console.log(actors)
+    console.log(actors, error)
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
